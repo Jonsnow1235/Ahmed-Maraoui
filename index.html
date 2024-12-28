@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojRkYzMzY2Ii8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM3MDAwRkYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMwMEMyRkYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cGF0aCBkPSJNNTAgNSBMOTAgMjUgTDkwIDc1IEw1MCA5NSBMMTAgNzUgTDEwIDI1IFoiIGZpbGw9InVybCgjZ3JhZGllbnQpIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMzAgNDAgTDQ1IDUwIEwzMCA2MCBNNzAgNDAgTDU1IDUwIEw3MCA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4=">
+    <title>Ahmed Maraoui - AI & Cybersecurity</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Syne', sans-serif;
+        }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --accent-primary: #FF3366;
+            --accent-secondary: #7000FF;
+            --accent-tertiary: #00C2FF;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --nav-height: 80px;
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+            opacity: 0.3;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 5vw;
+            transition: all 0.5s var(--transition-smooth);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem;
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s var(--transition-smooth);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: calc(var(--nav-height) + 2rem) 5vw;
+            position: relative;
+            z-index: 2;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            position: relative;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .hero h1 {
+            font-size: clamp(4rem, 10vw, 8rem);
+            line-height: 1;
+            margin-bottom: 2rem;
+            letter-spacing: -0.03em;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientFlow 8s infinite, float 6s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(255, 51, 102, 0.2);
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+            font-weight: 500;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            transition: all 0.5s var(--transition-smooth);
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                rgba(255, 51, 102, 0.1), 
+                rgba(112, 0, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.5s var(--transition-smooth);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, 
+                rgba(255, 51, 102, 0.1), 
+                rgba(112, 0, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.5s var(--transition-smooth);
+            mix-blend-mode: overlay;
+            border-radius: inherit;
+        }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover::after {
+            opacity: 1;
+        }
+
+        .card h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-primary);
+            font-weight: 700;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 1rem;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            width: 100%;
+            background-size: 200% 200%;
+            animation: gradientFlow 8s infinite;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 51, 102, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 2rem;
+            }
+            
+            .nav-links a {
+                font-size: 1rem;
+            }
+            
+            .section {
+                padding: calc(var(--nav-height) + 1rem) 1.5rem;
+            }
+            
+            .card h3 {
+                font-size: 1.75rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 2rem;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.5rem, 8vw, 4rem);
+            }
+        }
+
+        /* Scroll-triggered animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s var(--transition-smooth);
+        }
+
+        .fade-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Add fade-in animation for page load */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Add glow effect to sections */
+        .section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(255, 51, 102, 0.1) 0%,
+                transparent 50%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .section:hover::before {
+            opacity: 1;
+        }
+
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s var(--transition-smooth);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-switcher:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .language-switcher span {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .language-switcher i {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+        }
+
+        @media (max-width: 768px) {
+            .language-switcher {
+                top: 10px;
+                left: 10px;
+                padding: 6px 12px;
+                gap: 6px;
+            }
+
+            .language-switcher span {
+                font-size: 0.9rem;
+            }
+
+            .language-switcher i {
+                font-size: 1rem;
+            }
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .social-link {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            transition: all 0.3s var(--transition-smooth);
+            position: relative;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+            color: var(--accent-primary);
+            box-shadow: 0 10px 20px rgba(255, 51, 102, 0.2);
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .social-link:hover::before {
+            opacity: 0.1;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            background: var(--card-bg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(200%);
+            transition: transform 0.5s var(--transition-smooth);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left: 4px solid #00C851;
+        }
+
+        .notification.error {
+            border-left: 4px solid #ff3547;
+        }
+
+        .form-loading {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .form-loading.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--accent-primary);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Loading screen styles */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 1s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-animation {
+            width: 100px;
+            height: 100px;
+            border: 10px solid var(--accent-primary);
+            border-top: 10px solid var(--accent-secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .about-me {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-top: 4rem;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .about-me img {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s var(--transition-smooth);
+        }
+
+        .about-me img:hover {
+            transform: scale(1.05);
+        }
+
+        .about-me-content {
+            max-width: 600px;
+        }
+
+        .about-me-content h2 {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .about-me-content p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .about-me-content .animated-text {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            animation: fadeInOut 6s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            10%, 40% { opacity: 1; }
+            50%, 90% { opacity: 0; }
+        }
+
+        .about-me-content .animated-text {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            height: 2rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .animated-text span {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            animation: fadeInOut 15s infinite;
+        }
+
+        .animated-text span:nth-child(1) { animation-delay: 0s; }
+        .animated-text span:nth-child(2) { animation-delay: 3s; }
+        .animated-text span:nth-child(3) { animation-delay: 6s; }
+        .animated-text span:nth-child(4) { animation-delay: 9s; }
+        .animated-text span:nth-child(5) { animation-delay: 12s; }
+
+        @keyframes fadeInOut {
+            0%, 20%, 100% { opacity: 0; }
+            10% { opacity: 1; }
+        }
+
+        .animated-text-container {
+            height: 50px;
+            overflow: hidden;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .animated-text {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            animation: slideUp 15s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+        }
+
+        .animated-text span {
+            display: block;
+            height: 50px;
+            line-height: 50px;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .animated-text span.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes slideUp {
+            0%, 15% { transform: translateY(0); }
+            20%, 35% { transform: translateY(-50px); }
+            40%, 55% { transform: translateY(-100px); }
+            60%, 75% { transform: translateY(-150px); }
+            80%, 95% { transform: translateY(-200px); }
+            100% { transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .about-me {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .about-me img {
+                width: 200px;
+                height: 200px;
+            }
+
+            .about-me-content {
+                max-width: 100%;
+            }
+        }
+
+        .animated-text-container {
+            height: 50px;
+            position: relative;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .animated-text {
+            position: relative;
+            width: 100%;
+        }
+
+        .animated-text span {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .animated-text span.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animated-text-container {
+            height: 50px;
+            position: relative;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .animated-text {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .animated-text span {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .animated-text span.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animated-text span.fade-out {
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+        }
+
+        .words::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                var(--bg-color) 10%,
+                transparent 30%,
+                transparent 70%,
+                var(--bg-color) 90%
+            );
+            z-index: 20;
+        }
+
+        @keyframes spin_4991 {
+            10% {
+                transform: translateY(-102%);
+            }
+            25% {
+                transform: translateY(-100%);
+            }
+            35% {
+                transform: translateY(-202%);
+            }
+            50% {
+                transform: translateY(-200%);
+            }
+            60% {
+                transform: translateY(-302%);
+            }
+            75% {
+                transform: translateY(-300%);
+            }
+            85% {
+                transform: translateY(-402%);
+            }
+            100% {
+                transform: translateY(-400%);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-me-content h2 {
+                font-size: 2rem;
+            }
+
+            .about-me-content p {
+                font-size: 1rem;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.5rem, 8vw, 4rem);
+            }
+
+            .hero p {
+                font-size: clamp(1rem, 2.5vw, 1.5rem);
+            }
+        }
+    </style>
+    <!-- Add Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="loading-screen">
+        <div class="loading-animation"></div>
+    </div>
+    <button class="language-switcher" onclick="toggleLanguage()">
+        <span class="current-lang">EN</span>
+        <i class="fas fa-globe"></i>
+    </button>
+    <div id="canvas-container"></div>
+    
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#expertise">Expertise</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="section hero" id="home">
+        <div class="hero-content">
+            <h1>Ahmed Maraoui</h1>
+            <p>Crafting the future of AI and cybersecurity through innovative solutions</p>
+        </div>
+    </section>
+
+    <section class="section about-me" id="about">
+        <img src="images/WIN_20241023_15_22_42_Proj.jpg" alt="Ahmed Maraoui">
+        <div class="about-me-content">
+            <h2>About Me</h2>
+            <h3 class="gradient-text">Hi, I'm Ahmed Maraoui</h3>
+            <p>Machine Learning Student, Philosopher, Model, Web Developer, Cyber Security Student</p>
+            <p>Beyond my professional interests, I have a deep passion for fashion, philosophy, and reading. I believe in the power of aesthetics and intellectual growth to shape a better future.</p>
+            <p>Fashion allows me to express my creativity and individuality. Philosophy helps me explore the fundamental questions of existence and ethics. Reading broadens my horizons and keeps me informed about the latest developments in various fields.</p>
+        </div>
+    </section>
+
+    <section class="section" id="expertise">
+        <div class="grid">
+            <div class="card fade-up">
+                <h3>Machine Learning</h3>
+                <p>Pioneering advanced deep learning architectures and neural networks. Specializing in computer vision and natural language processing to create next-generation AI systems.</p>
+            </div>
+            <div class="card fade-up">
+                <h3>Cybersecurity</h3>
+                <p>Developing cutting-edge AI-powered security solutions and threat detection systems. Building innovative security frameworks for the modern digital landscape.</p>
+            </div>
+            <div class="card fade-up">
+                <h3>AI Development</h3>
+                <p>Creating state-of-the-art AI models and applications. Expert in MLOps, custom architectures, and enterprise-scale AI solutions with seamless integration.</p>
+            </div>
+            <div class="card fade-up">
+                <h3>Innovation</h3>
+                <p>Leading groundbreaking research in AI security and ethical AI development. Pushing the boundaries of what's possible in machine learning and cybersecurity.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="projects">
+        <div class="grid">
+            <div class="card fade-up">
+                <h3>Victoria AI</h3>
+                <p>A revolutionary language model featuring advanced reasoning capabilities and enhanced security protocols. Setting new standards in natural language processing.</p>
+            </div>
+            <div class="card fade-up">
+                <h3>SecureAI Shield</h3>
+                <p>Next-generation security framework for AI systems, providing comprehensive protection against sophisticated attacks and emerging threats.</p>
+            </div>
+            <div class="card fade-up">
+                <h3>ML Pipeline Pro</h3>
+                <p>Enterprise-grade machine learning infrastructure with automated workflows, robust testing, and seamless deployment capabilities.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="contact">
+        <form class="contact-form fade-up">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" rows="6" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+            <div class="form-loading">
+                <div class="spinner"></div>
+            </div>
+        </form>
+        <div class="social-links fade-up">
+            <a href="https://www.instagram.com/ahmed_maraoui1/" target="_blank" class="social-link">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.facebook.com/ahmed.maraoui.94" target="_blank" class="social-link">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/ahmed-maraoui-04a503297/" target="_blank" class="social-link">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </div>
+    </section>
+
+    <div class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span class="notification-text"></span>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                nav: {
+                    home: 'Home',
+                    expertise: 'Expertise',
+                    projects: 'Projects',
+                    contact: 'Contact'
+                },
+                hero: {
+                    title: 'Ahmed Maraoui',
+                    subtitle: 'Crafting the future of AI and cybersecurity through innovative solutions'
+                },
+                about: {
+                    title: 'About Me',
+                    subtitle: 'Hi, I\'m Ahmed Maraoui',
+                    description: 'Machine Learning Student, Philosopher, Model, Web Developer, Cyber Security Student',
+                    details: 'Beyond my professional interests, I have a deep passion for fashion, philosophy, and reading. I believe in the power of aesthetics and intellectual growth to shape a better future. Fashion allows me to express my creativity and individuality. Philosophy helps me explore the fundamental questions of existence and ethics. Reading broadens my horizons and keeps me informed about the latest developments in various fields.'
+                },
+                expertise: {
+                    ml: {
+                        title: 'Machine Learning',
+                        desc: 'Pioneering advanced deep learning architectures and neural networks. Specializing in computer vision and natural language processing to create next-generation AI systems.'
+                    },
+                    cyber: {
+                        title: 'Cybersecurity',
+                        desc: 'Developing cutting-edge AI-powered security solutions and threat detection systems. Building innovative security frameworks for the modern digital landscape.'
+                    },
+                    ai: {
+                        title: 'AI Development',
+                        desc: 'Creating state-of-the-art AI models and applications. Expert in MLOps, custom architectures, and enterprise-scale AI solutions with seamless integration.'
+                    },
+                    innovation: {
+                        title: 'Innovation',
+                        desc: 'Leading groundbreaking research in AI security and ethical AI development. Pushing the boundaries of what\'s possible in machine learning and cybersecurity.'
+                    }
+                },
+                projects: {
+                    victoria: {
+                        title: 'Victoria AI',
+                        desc: 'A revolutionary language model featuring advanced reasoning capabilities and enhanced security protocols. Setting new standards in natural language processing.'
+                    },
+                    shield: {
+                        title: 'SecureAI Shield',
+                        desc: 'Next-generation security framework for AI systems, providing comprehensive protection against sophisticated attacks and emerging threats.'
+                    },
+                    pipeline: {
+                        title: 'ML Pipeline Pro',
+                        desc: 'Enterprise-grade machine learning infrastructure with automated workflows, robust testing, and seamless deployment capabilities.'
+                    }
+                },
+                contact: {
+                    name: 'Name',
+                    email: 'Email',
+                    message: 'Message',
+                    send: 'Send Message',
+                    sending: 'Sending...',
+                    sent: 'Message Sent!'
+                }
+            },
+            fr: {
+                nav: {
+                    home: 'Accueil',
+                    expertise: 'Expertise',
+                    projects: 'Projets',
+                    contact: 'Contact'
+                },
+                hero: {
+                    title: 'Ahmed Maraoui',
+                    subtitle: 'Façonner l\'avenir de l\'IA et de la cybersécurité à travers des solutions innovantes'
+                },
+                about: {
+                    title: 'À Propos de Moi',
+                    subtitle: 'Salut, je suis Ahmed Maraoui',
+                    description: 'Étudiant en Apprentissage Automatique, Philosophe, Modèle, Développeur Web, Étudiant en Cybersécurité',
+                    details: 'Au-delà de mes intérêts professionnels, j\'ai une profonde passion pour la mode, la philosophie et la lecture. Je crois au pouvoir de l\'esthétique et de la croissance intellectuelle pour façonner un avenir meilleur. La mode me permet d\'exprimer ma créativité et mon individualité. La philosophie m\'aide à explorer les questions fondamentales de l\'existence et de l\'éthique. La lecture élargit mes horizons et me tient informé des derniers développements dans divers domaines.'
+                },
+                expertise: {
+                    ml: {
+                        title: 'Apprentissage Automatique',
+                        desc: 'Pionnier des architectures avancées d\'apprentissage profond et des réseaux de neurones. Spécialisation en vision par ordinateur et traitement du langage naturel.'
+                    },
+                    cyber: {
+                        title: 'Cybersécurité',
+                        desc: 'Développement de solutions de sécurité alimentées par l\'IA et de systèmes de détection des menaces. Construction de cadres de sécurité innovants.'
+                    },
+                    ai: {
+                        title: 'Développement IA',
+                        desc: 'Création de modèles et d\'applications d\'IA de pointe. Expert en MLOps, architectures personnalisées et solutions d\'IA à l\'échelle entreprise.'
+                    },
+                    innovation: {
+                        title: 'Innovation',
+                        desc: 'Direction de la recherche révolutionnaire en sécurité IA et développement éthique. Repousser les limites du possible en apprentissage automatique.'
+                    }
+                },
+                projects: {
+                    victoria: {
+                        title: 'Victoria IA',
+                        desc: 'Un modèle de langage révolutionnaire avec des capacités de raisonnement avancées et des protocoles de sécurité améliorés.'
+                    },
+                    shield: {
+                        title: 'SecureAI Shield',
+                        desc: 'Cadre de sécurité nouvelle génération pour les systèmes d\'IA, offrant une protection complète contre les attaques sophistiquées.'
+                    },
+                    pipeline: {
+                        title: 'ML Pipeline Pro',
+                        desc: 'Infrastructure d\'apprentissage automatique niveau entreprise avec flux de travail automatisés et tests robustes.'
+                    }
+                },
+                contact: {
+                    name: 'Nom',
+                    email: 'Email',
+                    message: 'Message',
+                    send: 'Envoyer',
+                    sending: 'Envoi...',
+                    sent: 'Message Envoyé!'
+                }
+            }
+        };
+
+        let currentLang = 'en';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'fr' : 'en';
+            updateContent();
+            document.querySelector('.current-lang').textContent = currentLang.toUpperCase();
+        }
+
+        function updateContent() {
+            // Update navigation
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                const key = link.getAttribute('href').replace('#', '');
+                link.textContent = translations[currentLang].nav[key];
+            });
+
+            // Update hero section
+            document.querySelector('.hero h1').textContent = translations[currentLang].hero.title;
+            document.querySelector('.hero p').textContent = translations[currentLang].hero.subtitle;
+
+            // Update about me section
+            document.querySelector('.about-me-content h2').textContent = translations[currentLang].about.title;
+            document.querySelector('.about-me-content h3').textContent = translations[currentLang].about.subtitle;
+            document.querySelector('.about-me-content p:nth-of-type(1)').textContent = translations[currentLang].about.description;
+            document.querySelector('.about-me-content p:nth-of-type(2)').textContent = translations[currentLang].about.details;
+
+            // Update expertise cards
+            const expertiseCards = document.querySelectorAll('#expertise .card');
+            const expertiseKeys = ['ml', 'cyber', 'ai', 'innovation'];
+            expertiseCards.forEach((card, index) => {
+                const key = expertiseKeys[index];
+                card.querySelector('h3').textContent = translations[currentLang].expertise[key].title;
+                card.querySelector('p').textContent = translations[currentLang].expertise[key].desc;
+            });
+
+            // Update project cards
+            const projectCards = document.querySelectorAll('#projects .card');
+            const projectKeys = ['victoria', 'shield', 'pipeline'];
+            projectCards.forEach((card, index) => {
+                const key = projectKeys[index];
+                card.querySelector('h3').textContent = translations[currentLang].projects[key].title;
+                card.querySelector('p').textContent = translations[currentLang].projects[key].desc;
+            });
+
+            // Update contact form
+            const contactForm = document.querySelector('.contact-form');
+            contactForm.querySelector('label[for="name"]').textContent = translations[currentLang].contact.name;
+            contactForm.querySelector('label[for="email"]').textContent = translations[currentLang].contact.email;
+            contactForm.querySelector('label[for="message"]').textContent = translations[currentLang].contact.message;
+            contactForm.querySelector('.submit-btn').textContent = translations[currentLang].contact.send;
+        }
+
+        // Initialize language
+        document.addEventListener('DOMContentLoaded', () => {
+            // Detect browser language
+            const browserLang = navigator.language.split('-')[0];
+            if (translations[browserLang]) {
+                currentLang = browserLang;
+                updateContent();
+                document.querySelector('.current-lang').textContent = currentLang.toUpperCase();
+            }
+        });
+
+        // Three.js Scene Setup
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // Create animated particles
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 3000; // Increased count
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 15;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.003,
+            color: '#FF3366',
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending,
+            vertexColors: true
+        });
+
+        const colors = new Float32Array(particlesCount * 3);
+        const colorsBase = [
+            [255/255, 51/255, 102/255], // Primary
+            [112/255, 0/255, 255/255],  // Secondary
+            [0/255, 194/255, 255/255]   // Tertiary
+        ];
+
+        for(let i = 0; i < particlesCount; i++) {
+            const colorIndex = Math.floor(Math.random() * colorsBase.length);
+            const color = colorsBase[colorIndex];
+            colors.set(color, i * 3);
+        }
+
+        particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+        camera.position.z = 3;
+
+        // Mouse interaction with parallax effect
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // Animation
+        const animate = () => {
+            requestAnimationFrame(animate);
+            
+            targetX = mouseX * 0.2;
+            targetY = mouseY * 0.2;
+            
+            particlesMesh.rotation.y += 0.002;
+            particlesMesh.rotation.x += 0.001;
+            
+            particlesMesh.rotation.y += (targetX - particlesMesh.rotation.y) * 0.05;
+            particlesMesh.rotation.x += (targetY - particlesMesh.rotation.x) * 0.05;
+            
+            renderer.render(scene, camera);
+        };
+
+        animate();
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Smooth scroll with optional offset
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80; // Height of fixed navbar
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations using Intersection Observer
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    if (entry.target.classList.contains('card')) {
+                        entry.target.style.transitionDelay = entry.target.dataset.delay || '0s';
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Add delay to cards for staggered animation
+        document.querySelectorAll('.fade-up').forEach((el, index) => {
+            el.dataset.delay = `${index * 0.1}s`;
+            observer.observe(el);
+        });
+
+        // Parallax effect for cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                card.style.transform = `
+                    perspective(1000px)
+                    rotateX(${rotateX}deg)
+                    rotateY(${rotateY}deg)
+                    translateZ(10px)
+                    scale3d(1.02, 1.02, 1.02)
+                `;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `
+                    perspective(1000px)
+                    rotateX(0deg)
+                    rotateY(0deg)
+                    translateZ(0)
+                    scale3d(1, 1, 1)
+                `;
+            });
+        });
+
+        // Form animations and validation
+        const form = document.querySelector('.contact-form');
+        const inputs = form.querySelectorAll('input, textarea');
+
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('focused');
+            });
+
+            input.addEventListener('blur', () => {
+                if (!input.value) {
+                    input.parentElement.classList.remove('focused');
+                }
+            });
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                from_name: document.getElementById('name').value,
+                from_email: document.getElementById('email').value,
+                message: document.getElementById('message').value,
+                to_email: 'ahmedmaraoui16@gmail.com'
+            };
+
+            const submitBtn = form.querySelector('.submit-btn');
+            const formLoading = form.querySelector('.form-loading');
+            
+            try {
+                submitBtn.disabled = true;
+                formLoading.classList.add('show');
+                
+                await emailjs.send('default_service', 'template_id', formData); // Replace with your service and template IDs
+                
+                showNotification('Message sent successfully!', 'success');
+                form.reset();
+            } catch (error) {
+                console.error('Error sending email:', error);
+                showNotification('Failed to send message. Please try again.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                formLoading.classList.remove('show');
+            }
+        });
+
+        function showNotification(message, type = 'success') {
+            const notification = document.querySelector('.notification');
+            const notificationText = notification.querySelector('.notification-text');
+            
+            notification.className = `notification ${type}`;
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Navbar scroll effect
+        let lastScroll = 0;
+        const navbar = document.querySelector('.navbar');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll <= 0) {
+                navbar.style.boxShadow = 'none';
+            } else {
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            }
+            
+            if (currentScroll > lastScroll && currentScroll > 500) {
+                // Scrolling down & past hero section
+                navbar.style.transform = 'translateY(-100%)';
+            } else {
+                // Scrolling up
+                navbar.style.transform = 'translateY(0)';
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Hide loading screen after a delay
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loading-screen').classList.add('hidden');
+                document.body.style.opacity = '1';
+            }, 2000); // Adjust the delay as needed
+        });
+
+        // Initialize page with fade-in effect
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 1s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Add smooth reveal animation for sections
+        const revealSections = () => {
+            const sections = document.querySelectorAll('.section');
+            
+            sections.forEach(section => {
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.style.opacity = '1';
+                                entry.target.style.transform = 'translateY(0)';
+                            }
+                        });
+                    },
+                    { threshold: 0.1 }
+                );
+                
+                observer.observe(section);
+            });
+        };
+
+        revealSections();
+
+        // Add parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero-content');
+            const scrolled = window.pageYOffset;
+            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+
+        // Add mouse trail effect
+        document.addEventListener('mousemove', (e) => {
+            document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+            document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+        });
+
+        // Enhanced card interactions
+        VanillaTilt.init(document.querySelectorAll('.card'), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            'max-glare': 0.5,
+            gyroscope: true
+        });
+
+        // Smooth scroll animations
+        const smoothScroll = (target, duration) => {
+            const targetPosition = target.getBoundingClientRect().top;
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            let startTime = null;
+
+            const animation = currentTime => {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const run = ease(timeElapsed, startPosition, distance, duration);
+                window.scrollTo(0, run);
+                if (timeElapsed < duration) requestAnimationFrame(animation);
+            };
+
+            const ease = (t, b, c, d) => {
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t + b;
+                t--;
+                return -c / 2 * (t * (t - 2) - 1) + b;
+            };
+
+            requestAnimationFrame(animation);
+        };
+
+        // Enhanced section reveal
+        const initializePageEffects = () => {
+            const sections = document.querySelectorAll('.section');
+            
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(50px) scale(0.95)';
+                
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.style.opacity = '1';
+                                entry.target.style.transform = 'translateY(0) scale(1)';
+                                if (entry.target.classList.contains('hero')) {
+                                    entry.target.style.transform = 'translateZ(0)';
+                                }
+                            }
+                        });
+                    },
+                    { 
+                        threshold: 0.1,
+                        rootMargin: '0px'
+                    }
+                );
+                
+                observer.observe(section);
+            });
+        };
+
+        initializePageEffects();
+
+        // Add error handling for Three.js and other critical components
+        try {
+            // Three.js initialization
+            // ...existing Three.js setup code...
+
+            animate();
+        } catch (error) {
+            console.error('Error initializing 3D effects:', error);
+            // Fallback to simpler background if Three.js fails
+            document.getElementById('canvas-container').style.display = 'none';
+        }
+
+        // Consolidated event listeners
+        window.addEventListener('load', () => {
+            try {
+                document.body.style.opacity = '0';
+                initializePageEffects();
+                VanillaTilt.init(document.querySelectorAll('.card'), {
+                    max: 15,
+                    speed: 400,
+                    glare: true,
+                    'max-glare': 0.5,
+                    gyroscope: true
+                });
+                
+                setTimeout(() => {
+                    document.body.style.transition = 'opacity 1s ease';
+                    document.body.style.opacity = '1';
+                }, 100);
+            } catch (error) {
+                console.error('Error initializing page effects:', error);
+                document.body.style.opacity = '1';
+            }
+        });
+
+        // Remove duplicate scroll event listeners and consolidate
+        let isScrolling;
+        window.addEventListener('scroll', () => {
+            // Clear previous timeout
+            window.clearTimeout(isScrolling);
+
+            // Set new timeout
+            isScrolling = setTimeout(() => {
+                const currentScroll = window.pageYOffset;
+                const hero = document.querySelector('.hero-content');
+                
+                // Navbar effect
+                if (currentScroll <= 0) {
+                    navbar.style.boxShadow = 'none';
+                } else {
+                    navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+                }
+                
+                if (currentScroll > lastScroll && currentScroll > 500) {
+                    navbar.style.transform = 'translateY(-100%)';
+                } else {
+                    navbar.style.transform = 'translateY(0)';
+                }
+                
+                // Hero parallax
+                if (hero) {
+                    hero.style.transform = `translateY(${currentScroll * 0.5}px)`;
+                }
+                
+                lastScroll = currentScroll;
+            }, 10);
+        });
+    </script>
+</body>
+</html>
