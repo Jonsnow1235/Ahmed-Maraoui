@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojRkYzMzY2Ii8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM3MDAwRkYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMwMEMyRkYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cGF0aCBkPSJNNTAgNSBMOTAgMjUgTDkwIDc1IEw1MCA5NSBMMTAgNzUgTDEwIDI1IFoiIGZpbGw9InVybCgjZ3JhZGllbnQpIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMzAgNDAgTDQ1IDUwIEwzMCA2MCBNNzAgNDAgTDU1IDUwIEw3MCA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4=">
-    <title>Ahmed Maraoui</title>
+    <title>Ahmed Maraoui - AI & Cybersecurity</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
@@ -298,11 +298,13 @@
 
         @media (max-width: 768px) {
             .nav-links {
-                gap: 2rem;
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
             }
             
             .nav-links a {
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
             
             .section {
@@ -310,7 +312,7 @@
             }
             
             .card h3 {
-                font-size: 1.75rem;
+                font-size: 1.5rem;
             }
 
             .grid {
@@ -318,11 +320,53 @@
             }
 
             .card {
-                padding: 2rem;
+                padding: 1.5rem;
             }
 
             .hero h1 {
                 font-size: clamp(2.5rem, 8vw, 4rem);
+            }
+
+            .hero p {
+                font-size: clamp(1rem, 2.5vw, 1.5rem);
+            }
+
+            .about-me {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .about-me img {
+                width: 200px;
+                height: 200px;
+            }
+
+            .about-me-content {
+                max-width: 100%;
+            }
+
+            .about-me-content h2 {
+                font-size: 2rem;
+            }
+
+            .about-me-content p {
+                font-size: 1rem;
+            }
+
+            .language-switcher {
+                top: 10px;
+                left: 10px;
+                padding: 6px 12px;
+                gap: 6px;
+            }
+
+            .language-switcher span {
+                font-size: 0.9rem;
+            }
+
+            .language-switcher i {
+                font-size: 1rem;
             }
         }
 
@@ -368,50 +412,48 @@
             top: 20px;
             left: 20px;
             z-index: 1000;
+            display: flex;
+            gap: 10px;
             background: rgba(255, 255, 255, 0.9);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 8px;
+            border-radius: 12px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            transition: all 0.3s var(--transition-smooth);
-            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-btn {
             display: flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            gap: 6px;
+            padding: 6px 12px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
-        .language-switcher:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        .lang-btn.active {
+            background: rgba(255, 51, 102, 0.1);
         }
 
-        .language-switcher span {
-            font-size: 1rem;
+        .lang-btn img {
+            width: 20px;
+            height: 15px;
+            object-fit: cover;
+        }
+
+        .lang-btn span {
             font-weight: 600;
             color: var(--text-primary);
         }
 
-        .language-switcher i {
-            font-size: 1.2rem;
-            color: var(--accent-primary);
-        }
-
         @media (max-width: 768px) {
             .language-switcher {
-                top: 10px;
-                left: 10px;
-                padding: 6px 12px;
-                gap: 6px;
-            }
-
-            .language-switcher span {
-                font-size: 0.9rem;
-            }
-
-            .language-switcher i {
-                font-size: 1rem;
+                top: auto;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
             }
         }
 
@@ -832,13 +874,24 @@
     <div class="loading-screen">
         <div class="loading-animation"></div>
     </div>
-    <button class="language-switcher" onclick="toggleLanguage()">
-        <span class="current-lang">EN</span>
-        <i class="fas fa-globe"></i>
-    </button>
+    <div class="language-switcher">
+        <button class="lang-btn" data-lang="en">
+            <img src="https://flagcdn.com/w20/gb.png" alt="English">
+            <span>EN</span>
+        </button>
+        <button class="lang-btn" data-lang="fr">
+            <img src="https://flagcdn.com/w20/fr.png" alt="Français">
+            <span>FR</span>
+        </button>
+    </div>
     <div id="canvas-container"></div>
     
     <nav class="navbar">
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <div class="nav-links">
             <a href="#home">Home</a>
             <a href="#expertise">Expertise</a>
@@ -1549,6 +1602,42 @@
                 lastScroll = currentScroll;
             }, 10);
         });
+
+        // Hamburger menu functionality
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const body = document.body;
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+                body.style.overflow = '';
+            });
+        });
+
+        // Updated language switcher functionality
+        const langButtons = document.querySelectorAll('.lang-btn');
+        
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
+                langButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentLang = lang;
+                updateContent();
+            });
+        });
+
+        // Set initial active language
+        document.querySelector(`[data-lang="${currentLang}"]`).classList.add('active');
     </script>
 </body>
 </html>
