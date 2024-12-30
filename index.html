@@ -32,11 +32,23 @@
             --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        [data-theme="dark"] {
+            --bg-color: #0a0a0a;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --card-bg: rgba(30, 30, 30, 0.9);
+            --navbar-bg: rgba(20, 20, 20, 0.8);
+            --input-bg: rgba(30, 30, 30, 0.8);
+            --border-color: rgba(255, 255, 255, 0.05);
+        }
+
         body {
             background: var(--bg-color);
             color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.6;
+            transition: background-color 0.3s var(--transition-smooth),
+                      color 0.3s var(--transition-smooth);
         }
 
         #canvas-container {
@@ -63,6 +75,8 @@
             padding: 0 5vw;
             transition: all 0.5s var(--transition-smooth);
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            background: var(--navbar-bg);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .nav-links {
@@ -179,6 +193,7 @@
             backdrop-filter: blur(10px);
             transform-style: preserve-3d;
             perspective: 1000px;
+            border: 1px solid var(--border-color);
         }
 
         .card::before {
@@ -266,6 +281,9 @@
             color: var(--text-primary);
             font-size: 1.1rem;
             transition: all 0.3s var(--transition-smooth);
+            background: var(--input-bg);
+            color: var(--text-primary);
+            border-color: var(--border-color);
         }
 
         .form-group input:focus,
@@ -866,6 +884,166 @@
                 font-size: clamp(1rem, 2.5vw, 1.5rem);
             }
         }
+
+        /* Add theme toggle button styles */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-toggle i {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            transition: transform 0.5s var(--transition-smooth);
+        }
+
+        .theme-toggle:hover i {
+            transform: rotate(180deg);
+        }
+
+        /* Update language switcher styles */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 8px;
+            padding: 6px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s var(--transition-smooth);
+            color: var(--text-primary);
+        }
+
+        .lang-btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 51, 102, 0.1);
+        }
+
+        .lang-btn img {
+            width: 20px;
+            height: 15px;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        .lang-btn span {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Enhanced theme toggle styles */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .theme-toggle i {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            transition: all 0.5s var(--transition-smooth);
+        }
+
+        .theme-toggle:hover i {
+            color: white;
+            transform: rotate(360deg);
+        }
+
+        /* Mobile responsiveness for controls */
+        @media (max-width: 768px) {
+            .controls-container {
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 12px;
+                z-index: 1000;
+            }
+
+            .language-switcher {
+                position: relative;
+                top: unset;
+                left: unset;
+                transform: none;
+            }
+
+            .theme-toggle {
+                position: relative;
+                top: unset;
+                right: unset;
+                width: 45px;
+                height: 45px;
+            }
+
+            .lang-btn {
+                padding: 6px 10px;
+            }
+
+            .lang-btn span {
+                font-size: 0.8rem;
+            }
+        }
     </style>
     <!-- Add Font Awesome for social icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -874,14 +1052,19 @@
     <div class="loading-screen">
         <div class="loading-animation"></div>
     </div>
-    <div class="language-switcher">
-        <button class="lang-btn" data-lang="en">
-            <img src="https://flagcdn.com/w20/gb.png" alt="English">
-            <span>EN</span>
-        </button>
-        <button class="lang-btn" data-lang="fr">
-            <img src="https://flagcdn.com/w20/fr.png" alt="Français">
-            <span>FR</span>
+    <div class="controls-container">
+        <div class="language-switcher">
+            <button class="lang-btn" data-lang="en">
+                <img src="https://flagcdn.com/w20/gb.png" alt="English">
+                <span>EN</span>
+            </button>
+            <button class="lang-btn" data-lang="fr">
+                <img src="https://flagcdn.com/w20/fr.png" alt="Français">
+                <span>FR</span>
+            </button>
+        </div>
+        <button class="theme-toggle" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
         </button>
     </div>
     <div id="canvas-container"></div>
@@ -1283,7 +1466,7 @@
             rootMargin: '0px'
         };
 
-        const observer = new IntersectionObserver((entries) => {
+        const scrollObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
@@ -1297,7 +1480,7 @@
         // Add delay to cards for staggered animation
         document.querySelectorAll('.fade-up').forEach((el, index) => {
             el.dataset.delay = `${index * 0.1}s`;
-            observer.observe(el);
+            scrollObserver.observe(el);
         });
 
         // Parallax effect for cards
@@ -1638,6 +1821,60 @@
 
         // Set initial active language
         document.querySelector(`[data-lang="${currentLang}"]`).classList.add('active');
+
+        // Add theme toggle functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // Update Three.js particle colors for dark mode
+        function updateParticleColors(theme) {
+            if (!particlesMaterial) return; // Guard clause for when Three.js isn't initialized
+            
+            const opacity = theme === 'dark' ? 0.4 : 0.8;
+            particlesMaterial.opacity = opacity;
+            
+            const colors = new Float32Array(particlesCount * 3);
+            for(let i = 0; i < particlesCount; i++) {
+                const colorIndex = Math.floor(Math.random() * colorsBase.length);
+                const color = colorsBase[colorIndex];
+                colors.set(color, i * 3);
+            }
+            
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        }
+
+        // Listen for theme changes and update particles
+        const themeObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'data-theme') {
+                    const theme = document.documentElement.getAttribute('data-theme');
+                    updateParticleColors(theme);
+                }
+            });
+        });
+
+        themeObserver.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-theme']
+        });
     </script>
 </body>
 </html>
